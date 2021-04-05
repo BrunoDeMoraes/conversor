@@ -11,16 +11,18 @@ class Conversor:
         self.frame_mestre = LabelFrame(tela, padx=0, pady=0)
         self.frame_mestre.pack(padx=1, pady=1)
 
+        self.frame_de_botões = LabelFrame(self.frame_mestre, padx=0, pady=0)
+
         self.titulo = Label(
             self.frame_mestre, text='Conversor',
             pady=0, padx=200, bg='red', fg='white', bd=2, relief=SUNKEN, font=('Helvetica', 10, 'bold'))
 
         self.botão_de_seleção_de_aquivos = Button(
-            self.frame_mestre, text='Incluir arquivos na lista', command=self.seleciona_arquivos,
+            self.frame_de_botões, text='Incluir arquivos na lista', command=self.seleciona_arquivos,
             padx=20, pady=0, bg='white', fg='red', font=('Helvetica', 9, 'bold'), bd=1)
 
         self.botão_excluir_arquivos_da_lista = Button(
-            self.frame_mestre, text='Retirar arquivos da lista', command=self.exclui_arquivos_da_lista,
+            self.frame_de_botões, text='Retirar arquivos da lista', command=self.exclui_arquivos_da_lista,
             padx=20, pady=0, bg='white', fg='red', font=('Helvetica', 9, 'bold'), bd=1)
 
         self.listbox_de_arquivos = Listbox(self.frame_mestre, width=70, selectmode=MULTIPLE)
@@ -39,12 +41,13 @@ class Conversor:
             padx=0, pady=0, bg='red', fg='white', font=('Helvetica', 9, 'bold'), bd=1)
 
         self.titulo.grid(row=0, column=1, pady=10, padx=0, sticky=W+E)
-        self.botão_de_seleção_de_aquivos.grid(row=1, column=1, pady=10)
-        self.botão_excluir_arquivos_da_lista.grid(row=2, column=1, pady=10)
-        self.listbox_de_arquivos.grid(row=3, column=1, pady=10)
-        self.validacao.grid(row=4, column=1, pady=10, ipadx=0, ipady=0)
-        self.botão_converter.grid(row=5, column=1, pady=10)
-        self.roda_pe.grid(row=6, column=1, pady=10, sticky=W+E)
+        self.frame_de_botões.grid(row=1, column=1, sticky=W+E)
+        self.botão_de_seleção_de_aquivos.grid(row=1, column=1, padx=30, pady=5)
+        self.botão_excluir_arquivos_da_lista.grid(row=1, column=2, padx=10, pady=5)
+        self.listbox_de_arquivos.grid(row=2, column=1, pady=10)
+        self.validacao.grid(row=3, column=1, pady=10, ipadx=0, ipady=0)
+        self.botão_converter.grid(row=4, column=1, pady=10)
+        self.roda_pe.grid(row=5, column=1, pady=10, sticky=W+E)
 
         self.lista_de_arquivos = {}
 
