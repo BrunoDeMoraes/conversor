@@ -3,11 +3,12 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 
-from pdf2image import convert_from_path
 import PyPDF2
+from pdf2image import convert_from_path
+
 
 class Conversor:
-    opções = ['Selecione uma opção' ,'Converter pdf em jpg', 'Mesclar arquivos']
+    opções = ['Selecione uma opção','Converter pdf em jpg', 'Mesclar arquivos']
 
     def __init__(self, tela):
         self.frame_mestre = LabelFrame(tela, padx=0, pady=0)
@@ -66,10 +67,11 @@ class Conversor:
 
     def exclui_arquivos_da_lista(self):
         if not self.listbox_de_arquivos.curselection():
-            messagebox.showerror('Não dá pra apagar o que não existe!', 'Não há arquivos listados e selecionados.')
+            messagebox.showerror('Não dá pra apagar o que não existe!', 'Não há arquivos listados ou selecionados.')
         else:
             for arquivo in self.listbox_de_arquivos.curselection():
-                messagebox.showinfo('Foi-se!', f'O arquivo ({self.listbox_de_arquivos.get(arquivo)}) foi excluído da lista para conversão')
+                messagebox.showinfo('Foi-se!', f'O arquivo ({self.listbox_de_arquivos.get(arquivo)})'
+                                               f' foi excluído da lista para conversão.')
                 del self.lista_de_arquivos[self.listbox_de_arquivos.get(arquivo)]
             self.atualiza_listbox()
 
@@ -105,16 +107,16 @@ class Conversor:
                 páginas_por_arquivo += f'{arquivo_convertido}; Número de imagens: {número_de_páginas_dos_arquivos[arquivo_convertido]}.\n'
             messagebox.showinfo('Rolou tranquilo!', f'Imagens criadas com sucesso!\n\n{páginas_por_arquivo}')
 
-
-
     def mesclar_arquivos_pdf(self):
         if not self.lista_de_arquivos.keys():
             messagebox.showwarning('Tem nada aqui!', 'Nenhum arquivo incluído na lista de conversão.')
         else:
             caminho_para_salvar_arquivos = filedialog.askdirectory()
             if os.path.exists(f'{caminho_para_salvar_arquivos}/Arquivos_mesclados.pdf'):
-                print('Já existe um arquivo com o nome de "Arquivos_mesclados" na pasta que você está tentando criar.\n'
-                      'Renomeie o arquivo existente antes de prosseguir com a ação.')
+                messagebox.showwarning('Encreca em dobro!', 'Já existe um arquivo com o nome de "Arquivos_mesclados" na'
+                                                            ' pasta que você está selecionou para criação do novo '
+                                                            'arquivo.\n\nRemova, apague ou renomeie o arquivo existente'
+                                                            ' antes de prosseguir com a ação.')
             else:
                 with open(f'{caminho_para_salvar_arquivos}/Arquivos_mesclados.pdf', 'wb') as arquivo_final:
                     criador_de_pdf = PyPDF2.PdfFileWriter()
@@ -125,3 +127,4 @@ class Conversor:
                                 página_do_pdf = arquivo_lido.getPage(página)
                                 criador_de_pdf.addPage(página_do_pdf)
                             criador_de_pdf.write(arquivo_final)
+                    messagebox.showinfo('Rolou tranquilo!', f'Mesclagem de arquivos executada com sucesso!')
