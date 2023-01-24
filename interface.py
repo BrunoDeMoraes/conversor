@@ -186,17 +186,17 @@ class Conversor:
                                 f'clados.pdf'
                         ), 'wb'
                 ) as arquivo_final:
-                    criador_de_pdf = PyPDF2.PdfFileWriter()
+                    criador_de_pdf = PyPDF2.PdfWriter()
                     for arquivo in self.lista_de_arquivos:
                         with open(
                                 self.lista_de_arquivos[arquivo],'rb'
                         ) as arquivo_aberto:
-                            arquivo_lido = PyPDF2.PdfFileReader(
+                            arquivo_lido = PyPDF2.PdfReader(
                                 arquivo_aberto
                             )
-                            for página in range(arquivo_lido.numPages):
-                                página_do_pdf = arquivo_lido.getPage(página)
-                                criador_de_pdf.addPage(página_do_pdf)
+                            for página in range(len(arquivo_lido.pages)):
+                                página_do_pdf = arquivo_lido.pages[página]
+                                criador_de_pdf.add_page(página_do_pdf)
                             criador_de_pdf.write(arquivo_final)
                     messagebox.showinfo(
                         'Rolou tranquilo!',
